@@ -10,8 +10,13 @@ def ensure_dir(directory):
 
 
 def ordinal(n):
+    '''number to ordinal string'''
     if 10 <= n % 100 < 20:
         return str(n) + 'th'
     else:
         return str(n) + {1 : 'st', 2 : 'nd', 3 : 'rd'}.get(n % 10, "th")
 
+
+def home():
+    '''home directory'''
+    return os.path.expanduser('~')
