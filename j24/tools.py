@@ -2,6 +2,11 @@
 import os
 
 
+def ensure_join(*args):
+    """like os.path.join, but creating the path if missing"""
+    return ensure_dir(os.path.join(*args))
+
+
 def ensure_dir(directory):
     """Make sure the directory exists. If not, create it."""
     if not os.path.exists(directory):
