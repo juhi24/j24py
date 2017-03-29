@@ -1,17 +1,8 @@
 # coding: utf-8
-import os
 
 
-def ensure_join(*args):
-    """like os.path.join, but creating the path if missing"""
-    return ensure_dir(os.path.join(*args))
-
-
-def ensure_dir(directory):
-    """Make sure the directory exists. If not, create it."""
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    return directory
+def limitslist(limits):
+    return [(mini, limits[i+1]) for i, mini in enumerate(limits[:-1])]
 
 
 def ordinal(n):
@@ -49,6 +40,4 @@ def daterange2str(start, end=None, dtformat='{day}{month}{year}', delimiter='-',
     return start_str + delimiter + end_str
 
 
-def home():
-    '''home directory'''
-    return os.path.expanduser('~')
+
