@@ -8,7 +8,7 @@ installation
 
 Using pip::
 
-    pip install git+git://github.com/juhi24/j24py.git
+    pip install git+https://github.com/juhi24/j24py.git
 
 Or clone the repository and install in your python environment::
 
