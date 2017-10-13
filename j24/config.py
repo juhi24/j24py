@@ -8,15 +8,15 @@ HOME = home()
 HERE = path.abspath(path.dirname(__file__))
 
 class Configurer:
-    def __init__(self, appname, template_path=HERE):
+    def __init__(self, appname, template_dir=HERE):
         self.appname = appname
-        self.template_path = template_path
+        self.template_dir = template_dir
 
     def filename(self):
         return self.appname+'.conf'
 
     def conf_path_template(self):
-        return path.join(self.template_path, self.filename() + '.template')
+        return path.join(self.template_dir, self.filename() + '.template')
 
     def conf_path_user(self):
         return path.join(HOME, '.'+self.appname, self.filename())
