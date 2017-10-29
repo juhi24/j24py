@@ -4,6 +4,7 @@ __metaclass__ = type
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.ticker as mticker
 from j24.tools import shift_edge
 
 
@@ -20,9 +21,18 @@ def heatmap(t, ax=None, **kws):
     return fig, ax
 
 
-def fmt_axis_date(axis, xlocator=None, datefmt='%b'):
+def fmt_axis_date(axis, locator=None, datefmt='%b'):
     """Format date axis (e.g. ax.xaxis) ticks."""
     date_formatter = mdates.DateFormatter(datefmt)
-    xloc = xlocator or mdates.MonthLocator()
-    axis.set_major_locator(xloc)
+    locator = locator or mdates.MonthLocator()
+    axis.set_major_locator(locator)
     axis.set_major_formatter(date_formatter)
+
+
+def fmt_axis_str(axis, locations=None, fmt='{x}'):
+    """Format ticks"""
+    if locations is not None:
+        locator = mticker.FixedLocator(locations)
+        axis.set_major_locator(locator)
+    formatter = mticker.StrMethodFormatter(fmt)
+    axis.set_major_formatter(formatter)
