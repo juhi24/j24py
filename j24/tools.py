@@ -7,10 +7,15 @@ import sys
 
 
 def running_py3():
+    """Check if python major version is greater than 2."""
     return sys.version_info.major > 2
 
 
 def limitslist(limits):
+    """
+    Translate a one dimensional vector to a list of pairs of consecutive
+    elements.
+    """
     return [(mini, limits[i+1]) for i, mini in enumerate(limits[:-1])]
 
 
