@@ -2,6 +2,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 __metaclass__ = type
 
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -15,6 +16,8 @@ DEFAULT_DISCRETE_CMAP = 'tab20'
 def class_color(cid, cm=None, cmap=DEFAULT_DISCRETE_CMAP, mapping=None,
                 default=(1, 1, 1)):
     """Pick a color for cid using optional mapping."""
+    if cid < 0:
+        return default
     cm = cm or plt.get_cmap(cmap)
     if mapping is not None:
         if cid in mapping.index:
@@ -31,7 +34,7 @@ def class_colors(classes, ymin=-0.2, ymax=0, ax=None, alpha=1, mapping=None,
     if isinstance(classes.index, pd.DatetimeIndex):
         t = classes.index
         dt = last_delta(t)*displacement_factor
-        clss = classes.shift(freq=dt).dropna().astype(int)
+        clss = classes.shift(freq=dt).fillna(-1).astype(int)
     else:
         clss = classes
         dt = displacement_factor
@@ -59,6 +62,15 @@ def heatmap(t, ax=None, **kws):
     return fig, ax
 
 
+def contour(t, ax=None, **kws):
+    """Plot DataFrame contours."""
+    ax = ax or plt.gca()
+    x = t.columns.values
+    y = t.index.values
+    ax.contour(x, y, t, **kws)
+    return ax
+
+
 def fmt_axis_date(axis, locator=None, datefmt='%b'):
     """Format date axis (e.g. ax.xaxis) ticks."""
     date_formatter = mdates.DateFormatter(datefmt)
@@ -74,3 +86,14 @@ def fmt_axis_str(axis, locations=None, fmt='{x}'):
         axis.set_major_locator(locator)
     formatter = mticker.StrMethodFormatter(fmt)
     axis.set_major_formatter(formatter)
+
+
+def axis_equal_3d(ax, dims='xyz'):
+    extents = np.array([getattr(ax, 'get_{}lim'.format(dim))() for dim in dims])
+    sz = extents[:,1] - extents[:,0]
+    centers = np.mean(extents, axis=1)
+    maxsize = max(abs(sz))
+    r = maxsize/2
+    for ctr, dim in zip(centers, dims):
+        getattr(ax, 'set_{}lim'.format(dim))(ctr - r, ctr + r)
+

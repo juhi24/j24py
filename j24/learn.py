@@ -13,7 +13,19 @@ def fit_predict(t, km):
 
 
 def centroids(t, km):
+    """cluster centroids as DataFrame"""
     return pd.DataFrame(km.cluster_centers_.T, index=t.index)
+
+
+def class_fraction(classes):
+    """occurrence fraction of each cluster"""
+    counts = classes.groupby(classes).count()
+    return counts/classes.count()
+
+
+def normalized_class_sizes(classes):
+    """cluster sizes normalized around 1"""
+    return class_fraction(classes)*classes.unique().size
 
 
 def pca_stats(pca):
