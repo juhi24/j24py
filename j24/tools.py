@@ -6,6 +6,11 @@ import numpy as np
 import sys
 
 
+def eprint(*args, **kwargs):
+    """print to stderr"""
+    print(*args, file=sys.stderr, **kwargs)
+
+
 def running_py3():
     """Check if python major version is greater than 2."""
     return sys.version_info.major > 2
