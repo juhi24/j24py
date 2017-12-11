@@ -1,5 +1,6 @@
 # coding: utf-8
 import os
+import shutil
 
 
 def ensure_dir(directory):
@@ -18,5 +19,15 @@ def ordinal(n):
 
 
 def home():
-    '''home directory'''
+    '''user home directory'''
     return os.path.expanduser('~')
+
+
+def install_systemd_service(name, template_path):
+    filename = name + '.service'
+    install_path = os.path.join('/etc/systemd/system', filename)
+    with open(template_path, 'r') as f:
+        service = f.read()
+    service = service.format(working_dir=home(), exec_start=shutil.which(name))
+    with open(install_path, 'w') as f:
+        f.write(service)
