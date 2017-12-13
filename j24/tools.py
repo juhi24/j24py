@@ -1,9 +1,11 @@
 # coding: utf-8
 from __future__ import absolute_import, division, print_function, unicode_literals
 __metaclass__ = type
-
+import os
+import shutil
 import numpy as np
 import sys
+from j24 import home
 
 
 def eprint(*args, **kwargs):
@@ -30,6 +32,16 @@ def ordinal(n):
         return str(n) + 'th'
     else:
         return str(n) + {1 : 'st', 2 : 'nd', 3 : 'rd'}.get(n % 10, "th")
+
+
+def install_systemd_service(name, template_path):
+    filename = name + '.service'
+    install_path = os.path.join('/etc/systemd/system', filename)
+    with open(template_path, 'r') as f:
+        service = f.read()
+    service = service.format(working_dir=home(), exec_start=shutil.which(name))
+    with open(install_path, 'w') as f:
+        f.write(service)
 
 
 def last_delta(x):
