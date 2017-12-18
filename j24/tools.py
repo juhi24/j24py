@@ -5,7 +5,7 @@ import os
 import shutil
 import numpy as np
 import sys
-from j24 import home
+from j24.path import home
 
 
 def eprint(*args, **kwargs):
@@ -61,3 +61,10 @@ def shift_edge(x):
     """
     return extrap_last_delta(x) - last_delta(x)/2
 
+
+def try_decode(input):
+    """Ensure object is a string."""
+    try:
+        return input.decode('utf-8')
+    except AttributeError:
+        return str(input)

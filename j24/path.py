@@ -24,6 +24,9 @@ def ensure_dir(directory):
 
 def filename_friendly(namestr, space_replacement='_'):
     """make string filename friendly"""
+    # avoid circular import
+    from j24.tools import try_decode
+    namestr = try_decode(namestr)
     namestr = namestr.rstrip().replace(' ', space_replacement)
-    keepchars = ('-','.','_')
+    keepchars = ('-', '.', '_')
     return ''.join(c for c in namestr if c.isalnum() or c in keepchars)
