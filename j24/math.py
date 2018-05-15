@@ -33,3 +33,14 @@ def wind2uv_df(*args):
     """Wrapper for pol2cart_df for converting Series of wind speed and
     direction to u and v components."""
     return pol2cart_df(*args, cols=('u', 'v'), conv_func=wind2uv)
+
+
+def weighted_median(arr, w):
+    """general weighted median"""
+    isort = np.argsort(arr)
+    cs = w[isort].cumsum()
+    cutoff = w.sum()/2
+    try:
+        return arr[isort][cs >= cutoff][0]
+    except IndexError:
+        return np.nan

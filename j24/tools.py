@@ -68,3 +68,8 @@ def try_decode(input):
         return input.decode('utf-8')
     except AttributeError:
         return str(input)
+
+
+def find(arr, value):
+    """find closest value using argmin"""
+    return abs(arr-value).argmin()
