@@ -18,6 +18,11 @@ def running_py3():
     return sys.version_info.major > 2
 
 
+def notify(title, message=''):
+    """Send OS notification."""
+    os.system('notify-send "{}" "{}"'.format(title, message))
+
+
 def limitslist(limits):
     """
     Translate a one dimensional vector to a list of pairs of consecutive
