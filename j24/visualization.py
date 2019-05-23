@@ -71,6 +71,23 @@ def contour(t, ax=None, **kws):
     return ax
 
 
+def scatter_kde(x, y, ax=None, s=50, **kws):
+    """Scatter plot colored by kernel density
+    Source: https://stackoverflow.com/questions/20105364
+    """
+    from scipy.stats import gaussian_kde
+    ax = ax or plt.gca()
+    xy = np.vstack([x, y])
+    # The first call creates a new gaussian_kde object
+    # second call evaluates the estimated pdf on the set of points
+    # (shortcut for calling the evaluate method)
+    z = gaussian_kde(xy)(xy)
+    # Sort by density, such that the densest points are plotted last
+    idx = z.argsort()
+    x, y, z = x[idx], y[idx], z[idx]
+    return ax.scatter(x, y, c=z, s=s, edgecolor='')
+
+
 def fmt_axis_date(axis, locator=None, datefmt='%b'):
     """Format date axis (e.g. ax.xaxis) ticks."""
     date_formatter = mdates.DateFormatter(datefmt)
